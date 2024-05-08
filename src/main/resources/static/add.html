@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="myForm" enctype="multipart/form-data">
+      <input type="file" name="file" onchange="changeHandler(event)" />
+      <button type="button" onclick="submitFile()">Wyślij</button>
+    </form>
+
+    <script>
+      let file;
+
+      const changeHandler = (event) => {
+        file = event.target.files[0];
+      };
+
+      const submitFile = () => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const requestOptions = {
+          method: "POST",
+          body: formData,
+        };
+
+        fetch("http://localhost:8080/add", requestOptions)
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Błąd:", error));
+      };
+    </script>
+  </body>
+</html>
